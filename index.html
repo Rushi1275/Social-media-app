@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Form</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Create a Post</h2>
+    <form id="postForm">
+      <label for="photoLink">Photo Link:</label>
+      <input type="text" id="photoLink" name="photoLink" required>
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <div id="cardContainer" class="container">
+    <h2>Posts</h2>
+    <div id="cards"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
