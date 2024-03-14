@@ -1,20 +1,16 @@
-// app.js
-
 const express = require('express');
 const cors = require('cors');
 const { Sequelize, DataTypes } = require('sequelize');
 
-// Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Sequelize database connection
 const sequelize = new Sequelize('social', 'root', 'Rushi@0717', {
   host: 'localhost',
   dialect: 'mysql',
 });
 
-// Define Post model
+
 const Post = sequelize.define('Post', {
   photoLink: {
     type: DataTypes.STRING,
@@ -26,7 +22,7 @@ const Post = sequelize.define('Post', {
   },
 });
 
-// Define Comment model
+
 const Comment = sequelize.define('Comment', {
   postId: {
     type: DataTypes.INTEGER,
@@ -47,10 +43,28 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
+// Function to get posts with comments
+async function getPostsAndComments() {
+  try {
+    const posts = await Post.findAll({ include: Comment });
+    return posts;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error retrieving posts and comments');
+  }
+}
+
+// Route handler for getting posts with comments
 app.get('/posts', async (req, res) => {
-  const posts = await Post.findAll({ include: Comment });
-  res.json(posts);
+  try {
+    const posts = await getPostsAndComments();
+    res.json(posts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error retrieving posts and comments');
+  }
 });
+
 
 app.post('/post', async (req, res) => {
   const { photoLink, description } = req.body;
